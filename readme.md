@@ -1,5 +1,9 @@
 # Docker build-with-cache action
 
+> This is a fork of [whoan/docker-build-with-cache-action](https://github.com/whoan/docker-build-with-cache-action) with one small modification: It reads Google Container Registry's Service Account credential and decode it with base64 before logging in.
+> 
+> Modifications are licensed with MIT License.
+
 This action builds your docker image and caches the stages (supports multi-stage builds) to improve building times in subsequent builds.
 
 By default, it pushes the image with all the stages to a registry (needs username and password), but you can disable this feature by setting `push_image_and_stages` to `false`.

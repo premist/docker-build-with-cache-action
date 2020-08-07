@@ -150,10 +150,16 @@ _create_aws_ecr_repos() {
   return 0
 }
 
+_login_to_gcloud_registry() {
+	echo $INPUT_PASSWORD | base64 -d | docker login -u "${INPUT_USERNAME}" --password-stdin "${INPUT_REGISTRY}" || return 1
+}
+
 _docker_login() {
   if _is_aws_ecr; then
     { _login_to_aws_ecr && _create_aws_ecr_repos; } || return 1
-  else
+	elif _is_gcloud_registry; then
+		_login_to_gcloud_registry || return 1
+	else
     echo "${INPUT_PASSWORD}" | docker login -u "${INPUT_USERNAME}" --password-stdin "${INPUT_REGISTRY}" || return 1
   fi
   trap logout_from_registry EXIT
